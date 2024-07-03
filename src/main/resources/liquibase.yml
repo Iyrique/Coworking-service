@@ -1,0 +1,9 @@
+databaseChangeLogTableName: DATABASECHANGELOG
+databaseChangeLogLockTableName: DATABASECHANGELOGLOCK
+changeLogFile: db/changelog/changelog.xml
+defaultSchemaName: coworking
+liquibaseSchemaName: liquibase_schema
+url: jdbc:postgresql://localhost:5432/coworkingDB
+username: root
+password: root
+driver: org.postgresql.Driver
