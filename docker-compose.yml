@@ -1,0 +1,26 @@
+version: '3.1'
+services:
+  postgresql:
+    image: postgres
+    container_name: db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: coworkingDB
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgresql

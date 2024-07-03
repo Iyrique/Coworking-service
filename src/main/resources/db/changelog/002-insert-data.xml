@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <!-- ChangeSet for creating sequences for primary keys -->
+    <changeSet id="3" author="Iyrique">
+        <createSequence sequenceName="user_sequence" startValue="1" incrementBy="1" schemaName="coworking"/>
+        <createSequence sequenceName="workspace_sequence" startValue="1" incrementBy="1" schemaName="coworking"/>
+        <createSequence sequenceName="conference_room_sequence" startValue="1" incrementBy="1" schemaName="coworking"/>
+        <createSequence sequenceName="booking_sequence" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <!-- ChangeSet for inserting initial data into the tables -->
+    <changeSet id="4" author="Iyrique">
+        <!-- Insert initial user 'admin' into the users table -->
+        <insert tableName="users">
+            <column name="id" valueComputed="nextval('coworking.user_sequence')"/>
+            <column name="username" value="admin"/>
+            <column name="password" value="admin"/>
+            <column name="name" value="Administrator"/>
+        </insert>
+
+        <!-- Insert initial workspace into the workspaces table -->
+        <insert tableName="workspaces">
+            <column name="id" valueComputed="nextval('coworking.workspace_sequence')"/>
+            <column name="name" value="Workspace 1"/>
+            <column name="is_available" value="true"/>
+        </insert>
+
+        <!-- Insert initial conference room into the conference_rooms table -->
+        <insert tableName="conference_rooms">
+            <column name="id" valueComputed="nextval('coworking.conference_room_sequence')"/>
+            <column name="name" value="Conference Room 1"/>
+            <column name="is_available" value="true"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
