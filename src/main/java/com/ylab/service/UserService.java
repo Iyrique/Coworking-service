@@ -22,10 +22,16 @@ public class UserService {
      * @throws IllegalArgumentException if the username is already taken
      */
     public void registerUser(User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
+        User exUser = null;
+        try {
+            exUser = userRepository.findByUsername(user.getUsername());
+        } catch (UserNotFoundException e) {
+            userRepository.save(user);
+        }
+        if (exUser != null) {
             throw new IllegalArgumentException("Username is already taken");
         }
-        userRepository.save(user);
+        
     }
 
     /**

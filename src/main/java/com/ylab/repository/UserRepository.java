@@ -45,7 +45,7 @@ public class UserRepository {
      * @param username the username to search for
      * @return the user if found, null otherwise
      */
-    public User findByUsername(String username) {
+    public User findByUsername(String username) throws UserNotFoundException {
         String sql = "SELECT * FROM coworking.users WHERE username = ?";
         try {
             PreparedStatement statement = connectorDB.getConnection().prepareStatement(sql);
