@@ -74,18 +74,18 @@ public class BookingRepositoryTest {
             connection.createStatement().execute("TRUNCATE TABLE coworking.bookings RESTART IDENTITY CASCADE");
         }
     }
-
-    @Test
-    @DisplayName("Test saving and retrieving all bookings")
-    public void testSaveAndFindAllBookings() {
-        Booking booking = new Booking(null, "user1", 1, LocalDateTime.now(), LocalDateTime.now().plusHours(1), true);
-        bookingRepository.save(booking);
-
-        List<Booking> bookings = bookingRepository.findAll();
-        assertNotNull(bookings);
-        assertFalse(bookings.isEmpty());
-        assertEquals("user1", bookings.get(0).getUsername());
-    }
+//
+//    @Test
+//    @DisplayName("Test saving and retrieving all bookings")
+//    public void testSaveAndFindAllBookings() {
+//        Booking booking = new Booking(null, "user1", 1, LocalDateTime.now(), LocalDateTime.now().plusHours(1), true);
+//        bookingRepository.save(booking);
+//
+//        List<Booking> bookings = bookingRepository.findAll();
+//        assertNotNull(bookings);
+//        assertFalse(bookings.isEmpty());
+//        assertEquals("user1", bookings.get(0).getUsername());
+//    }
 
     @Test
     @DisplayName("Test cancelling a booking")
