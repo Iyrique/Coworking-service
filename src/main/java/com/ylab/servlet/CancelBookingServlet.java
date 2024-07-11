@@ -1,8 +1,8 @@
 package com.ylab.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ylab.repository.BookingRepository;
-import com.ylab.service.BookingService;
+import com.ylab.repository.impl.BookingRepositoryImpl;
+import com.ylab.service.impl.BookingServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,19 +14,19 @@ import java.io.IOException;
 @WebServlet(name = "CancelBookingServlet", urlPatterns = {"/cancelBooking"})
 public class CancelBookingServlet extends HttpServlet {
 
-    private BookingService bookingService;
+    private BookingServiceImpl bookingServiceImpl;
     private ObjectMapper objectMapper;
 
     @Override
     public void init() throws ServletException {
-        bookingService = new BookingService(new BookingRepository());
+        bookingServiceImpl = new BookingServiceImpl(new BookingRepositoryImpl());
         objectMapper = new ObjectMapper();
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int bookingId = Integer.parseInt(req.getParameter("id"));
-        bookingService.cancelBooking(bookingId);
+        bookingServiceImpl.cancelBooking(bookingId);
         resp.setStatus(HttpServletResponse.SC_OK);
         objectMapper.writeValue(resp.getOutputStream(), "Booking cancelled successfully.");
     }

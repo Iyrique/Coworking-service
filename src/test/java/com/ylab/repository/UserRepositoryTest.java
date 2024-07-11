@@ -2,7 +2,7 @@ package com.ylab.repository;
 
 import com.ylab.connector.ConnectorDB;
 import com.ylab.exception.UserNotFoundException;
-import com.ylab.model.User;
+import com.ylab.repository.impl.UserRepositoryImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class UserRepositoryTest {
             .withUsername("testuser")
             .withPassword("testpass");
 
-    private static UserRepository userRepository;
+    private static UserRepositoryImpl userRepository;
 
     @BeforeAll
     public static void setUp() throws SQLException {
@@ -58,7 +58,7 @@ public class UserRepositoryTest {
             logger.info("Schema and table created.");
         }
 
-        userRepository = new UserRepository();
+        userRepository = new UserRepositoryImpl();
     }
 
 //    @Test

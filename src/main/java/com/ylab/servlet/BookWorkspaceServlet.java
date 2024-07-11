@@ -3,8 +3,8 @@ package com.ylab.servlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ylab.dto.BookingDTO;
 import com.ylab.model.Booking;
-import com.ylab.repository.BookingRepository;
-import com.ylab.service.BookingService;
+import com.ylab.repository.impl.BookingRepositoryImpl;
+import com.ylab.service.impl.BookingServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,12 +18,12 @@ import java.util.Set;
 @WebServlet("/bookWorkspace")
 public class BookWorkspaceServlet extends HttpServlet {
 
-    private final BookingService bookingService;
+    private final BookingServiceImpl bookingServiceImpl;
     private final ObjectMapper objectMapper;
     private final Validator validator;
 
     public BookWorkspaceServlet() {
-        this.bookingService = new BookingService(new BookingRepository());
+        this.bookingServiceImpl = new BookingServiceImpl(new BookingRepositoryImpl());
         this.objectMapper = new ObjectMapper();
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         this.validator = factory.getValidator();
@@ -43,7 +43,7 @@ public class BookWorkspaceServlet extends HttpServlet {
         Booking booking = new Booking(null, bookingDTO.getUsername(), bookingDTO.getResourceId(),
                 bookingDTO.getStartTime(), bookingDTO.getEndTime(), bookingDTO.isWorkspace());
         try {
-            bookingService.bookResource(booking);
+            bookingServiceImpl.bookResource(booking);
             resp.setStatus(HttpServletResponse.SC_CREATED);
             objectMapper.writeValue(resp.getWriter(), "Workspace booked successfully");
         } catch (IllegalArgumentException e) {

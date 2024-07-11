@@ -1,8 +1,7 @@
 package com.ylab.repository;
 
 import com.ylab.connector.ConnectorDB;
-import com.ylab.model.ConferenceRoom;
-import com.ylab.model.Workspace;
+import com.ylab.repository.impl.ResourceRepositoryImpl;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -11,9 +10,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for ResourceRepository.
@@ -27,7 +23,7 @@ public class ResourceRepositoryTest {
             .withUsername("testuser")
             .withPassword("testpass");
 
-    private static ResourceRepository resourceRepository;
+    private static ResourceRepositoryImpl resourceRepositoryImpl;
 
     @BeforeAll
     public static void setUp() throws SQLException {
@@ -56,7 +52,7 @@ public class ResourceRepositoryTest {
             );
         }
 
-        resourceRepository = new ResourceRepository();
+        resourceRepositoryImpl = new ResourceRepositoryImpl();
     }
 
     @AfterEach

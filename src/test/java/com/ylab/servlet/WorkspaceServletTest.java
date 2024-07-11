@@ -1,8 +1,7 @@
 package com.ylab.servlet;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ylab.model.Workspace;
-import com.ylab.service.ResourceService;
+import com.ylab.service.impl.ResourceServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,11 +22,11 @@ import static org.mockito.Mockito.*;
 public class WorkspaceServletTest {
 
     private WorkspaceServlet workspaceServlet;
-    private ResourceService resourceService;
+    private ResourceServiceImpl resourceServiceImpl;
 
     @BeforeEach
     public void setUp() throws ServletException {
-        resourceService = mock(ResourceService.class);
+        resourceServiceImpl = mock(ResourceServiceImpl.class);
         workspaceServlet = new WorkspaceServlet();
         workspaceServlet.init();
     }
@@ -46,7 +45,7 @@ public class WorkspaceServletTest {
         workspaceMap.put(1L, workspaces.get(0));
         workspaceMap.put(2L, workspaces.get(1));
 
-        when(resourceService.getAllWorkspaces()).thenReturn(workspaceMap);
+        when(resourceServiceImpl.getAllWorkspaces()).thenReturn(workspaceMap);
         when(response.getOutputStream()).thenReturn(outputStream);
 
         workspaceServlet.doGet(request, response);

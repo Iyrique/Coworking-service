@@ -3,8 +3,8 @@ package com.ylab.servlet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ylab.dto.WorkspaceDTO;
 import com.ylab.model.Workspace;
-import com.ylab.repository.ResourceRepository;
-import com.ylab.service.ResourceService;
+import com.ylab.repository.impl.ResourceRepositoryImpl;
+import com.ylab.service.impl.ResourceServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,12 +20,12 @@ import java.util.Set;
 @WebServlet("/addWorkspace")
 public class AddWorkspaceServlet extends HttpServlet {
 
-    private final ResourceService resourceService;
+    private final ResourceServiceImpl resourceServiceImpl;
     private final ObjectMapper objectMapper;
     private final Validator validator;
 
     public AddWorkspaceServlet() {
-        this.resourceService = new ResourceService(new ResourceRepository());
+        this.resourceServiceImpl = new ResourceServiceImpl(new ResourceRepositoryImpl());
         this.objectMapper = new ObjectMapper();
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         this.validator = factory.getValidator();
@@ -43,7 +43,7 @@ public class AddWorkspaceServlet extends HttpServlet {
         }
 
         Workspace workspace = new Workspace(null, workspaceDTO.getName(), workspaceDTO.isAvailable());
-        resourceService.addWorkspace(workspace);
+        resourceServiceImpl.addWorkspace(workspace);
         resp.setStatus(HttpServletResponse.SC_CREATED);
         objectMapper.writeValue(resp.getWriter(), "Workspace added successfully");
     }

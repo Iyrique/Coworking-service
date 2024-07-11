@@ -2,7 +2,8 @@ package com.ylab.service;
 
 import com.ylab.model.Booking;
 
-import com.ylab.repository.BookingRepository;
+import com.ylab.repository.impl.BookingRepositoryImpl;
+import com.ylab.service.impl.BookingServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,28 +20,28 @@ import static org.mockito.Mockito.*;
  * Service class for booking operations.
  */
 class BookingServiceTest {
-    private BookingRepository bookingRepository;
-    private BookingService bookingService;
+    private BookingRepositoryImpl bookingRepositoryImpl;
+    private BookingServiceImpl bookingServiceImpl;
 
     @BeforeEach
     void setUp() {
-        bookingRepository = Mockito.mock(BookingRepository.class);
-        bookingService = new BookingService(bookingRepository);
+        bookingRepositoryImpl = Mockito.mock(BookingRepositoryImpl.class);
+        bookingServiceImpl = new BookingServiceImpl(bookingRepositoryImpl);
     }
 
     @Test
     @DisplayName("Book a resource")
     void bookResource() {
         Booking booking = new Booking(null, "testUser", 1, LocalDateTime.now(), LocalDateTime.now().plusHours(1), true);
-        bookingService.bookResource(booking);
-        verify(bookingRepository, times(1)).save(booking);
+        bookingServiceImpl.bookResource(booking);
+        verify(bookingRepositoryImpl, times(1)).save(booking);
     }
 
     @Test
     @DisplayName("Cancel a booking")
     void cancelBooking() {
-        bookingService.cancelBooking(1);
-        verify(bookingRepository, times(1)).cancel(1);
+        bookingServiceImpl.cancelBooking(1);
+        verify(bookingRepositoryImpl, times(1)).cancel(1);
     }
 
     @Test
@@ -48,9 +49,9 @@ class BookingServiceTest {
     void getAllBookings() {
         List<Booking> mockBookings = new ArrayList<>();
         mockBookings.add(new Booking(1L, "testUser", 1, LocalDateTime.now(), LocalDateTime.now().plusHours(1), true));
-        when(bookingRepository.findAll()).thenReturn(mockBookings);
+        when(bookingRepositoryImpl.findAll()).thenReturn(mockBookings);
 
-        List<Booking> bookings = bookingService.getAllBookings();
+        List<Booking> bookings = bookingServiceImpl.getAllBookings();
         assertEquals(1, bookings.size());
         assertEquals("testUser", bookings.get(0).getUsername());
     }
@@ -61,9 +62,9 @@ class BookingServiceTest {
         LocalDateTime date = LocalDateTime.of(2023, 6, 25, 0, 0);
         List<Booking> mockBookings = new ArrayList<>();
         mockBookings.add(new Booking(1L, "testUser", 1, date, date.plusHours(1), true));
-        when(bookingRepository.filter(date, null, null)).thenReturn(mockBookings);
+        when(bookingRepositoryImpl.filter(date, null, null)).thenReturn(mockBookings);
 
-        List<Booking> bookings = bookingService.filterBookings(date, null, null);
+        List<Booking> bookings = bookingServiceImpl.filterBookings(date, null, null);
         assertEquals(1, bookings.size());
         assertEquals("testUser", bookings.get(0).getUsername());
     }
@@ -74,9 +75,9 @@ class BookingServiceTest {
         String username = "testUser";
         List<Booking> mockBookings = new ArrayList<>();
         mockBookings.add(new Booking(1L, username, 1, LocalDateTime.now(), LocalDateTime.now().plusHours(1), true));
-        when(bookingRepository.filter(null, username, null)).thenReturn(mockBookings);
+        when(bookingRepositoryImpl.filter(null, username, null)).thenReturn(mockBookings);
 
-        List<Booking> bookings = bookingService.filterBookings(null, username, null);
+        List<Booking> bookings = bookingServiceImpl.filterBookings(null, username, null);
         assertEquals(1, bookings.size());
         assertEquals(username, bookings.get(0).getUsername());
     }
@@ -87,9 +88,9 @@ class BookingServiceTest {
         int resourceId = 1;
         List<Booking> mockBookings = new ArrayList<>();
         mockBookings.add(new Booking(1L, "testUser", resourceId, LocalDateTime.now(), LocalDateTime.now().plusHours(1), true));
-        when(bookingRepository.filter(null, null, resourceId)).thenReturn(mockBookings);
+        when(bookingRepositoryImpl.filter(null, null, resourceId)).thenReturn(mockBookings);
 
-        List<Booking> bookings = bookingService.filterBookings(null, null, resourceId);
+        List<Booking> bookings = bookingServiceImpl.filterBookings(null, null, resourceId);
         assertEquals(1, bookings.size());
         assertEquals(resourceId, bookings.get(0).getResourceId());
     }
@@ -102,9 +103,9 @@ class BookingServiceTest {
         int resourceId = 1;
         List<Booking> mockBookings = new ArrayList<>();
         mockBookings.add(new Booking(1L, username, resourceId, date, date.plusHours(1), true));
-        when(bookingRepository.filter(date, username, resourceId)).thenReturn(mockBookings);
+        when(bookingRepositoryImpl.filter(date, username, resourceId)).thenReturn(mockBookings);
 
-        List<Booking> bookings = bookingService.filterBookings(date, username, resourceId);
+        List<Booking> bookings = bookingServiceImpl.filterBookings(date, username, resourceId);
         assertEquals(1, bookings.size());
         assertEquals(username, bookings.get(0).getUsername());
         assertEquals(resourceId, bookings.get(0).getResourceId());

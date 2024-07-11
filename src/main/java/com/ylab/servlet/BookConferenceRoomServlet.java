@@ -4,8 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ylab.dto.BookingDTO;
 import com.ylab.mapper.BookingMapper;
 import com.ylab.model.Booking;
-import com.ylab.repository.BookingRepository;
-import com.ylab.service.BookingService;
+import com.ylab.repository.impl.BookingRepositoryImpl;
+import com.ylab.service.impl.BookingServiceImpl;
+import org.mapstruct.factory.Mappers;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,12 +20,13 @@ import java.util.Set;
 @WebServlet("/bookConferenceRoom")
 public class BookConferenceRoomServlet extends HttpServlet {
 
-    private final BookingService bookingService;
+    private final BookingServiceImpl bookingServiceImpl;
     private final ObjectMapper objectMapper;
+    private final BookingMapper bookingMapper = Mappers.getMapper(BookingMapper.class);
     private final Validator validator;
 
     public BookConferenceRoomServlet() {
-        this.bookingService = new BookingService(new BookingRepository());
+        this.bookingServiceImpl = new BookingServiceImpl(new BookingRepositoryImpl());
         this.objectMapper = new ObjectMapper();
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
@@ -42,10 +44,9 @@ public class BookConferenceRoomServlet extends HttpServlet {
                 return;
             }
 
-            Booking booking = new Booking(null, bookingRequest.getUsername(), bookingRequest.getResourceId(),
-                    bookingRequest.getStartTime(), bookingRequest.getEndTime(), bookingRequest.isWorkspace());
+            Booking booking = bookingMapper.toEntity(bookingRequest);
 
-            bookingService.bookResource(booking);
+            bookingServiceImpl.bookResource(booking);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

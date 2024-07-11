@@ -1,10 +1,8 @@
 package com.ylab.servlet;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ylab.service.BookingService;
+import com.ylab.service.impl.BookingServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -18,11 +16,11 @@ import static org.mockito.Mockito.*;
 public class CancelBookingServletTest {
 
     private CancelBookingServlet cancelBookingServlet;
-    private BookingService bookingService;
+    private BookingServiceImpl bookingServiceImpl;
 
     @BeforeEach
     public void setUp() throws ServletException {
-        bookingService = mock(BookingService.class);
+        bookingServiceImpl = mock(BookingServiceImpl.class);
         cancelBookingServlet = new CancelBookingServlet();
         cancelBookingServlet.init();
     }

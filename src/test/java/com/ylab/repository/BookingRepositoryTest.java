@@ -2,7 +2,7 @@ package com.ylab.repository;
 
 import com.ylab.connector.ConnectorDB;
 import com.ylab.model.Booking;
-import org.junit.jupiter.api.AfterAll;
+import com.ylab.repository.impl.BookingRepositoryImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +33,7 @@ public class BookingRepositoryTest {
             .withUsername("testuser")
             .withPassword("testpass");
 
-    private static BookingRepository bookingRepository;
+    private static BookingRepositoryImpl bookingRepository;
 
     @BeforeAll
     public static void setUp() throws SQLException {
@@ -61,7 +61,7 @@ public class BookingRepositoryTest {
             }
         }
 
-        bookingRepository = new BookingRepository();
+        bookingRepository = new BookingRepositoryImpl();
     }
 
     @AfterEach

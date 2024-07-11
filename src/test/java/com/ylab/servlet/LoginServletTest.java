@@ -1,8 +1,7 @@
 package com.ylab.servlet;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ylab.model.User;
-import com.ylab.service.UserService;
+import com.ylab.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,11 +17,11 @@ import static org.mockito.Mockito.*;
 public class LoginServletTest {
 
     private LoginServlet loginServlet;
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @BeforeEach
     public void setUp() throws ServletException {
-        userService = mock(UserService.class);
+        userServiceImpl = mock(UserServiceImpl.class);
         loginServlet = new LoginServlet();
         loginServlet.init();
     }
@@ -40,8 +39,8 @@ public class LoginServletTest {
         when(response.getOutputStream()).thenReturn(outputStream);
 
         User user = new User(1L, "testuser", "testpass", "Test User");
-        when(userService.authenticate("testuser", "testpass")).thenReturn(true);
-        when(userService.getUser("testuser")).thenReturn(user);
+        when(userServiceImpl.authenticate("testuser", "testpass")).thenReturn(true);
+        when(userServiceImpl.getUser("testuser")).thenReturn(user);
 
         loginServlet.doPost(request, response);
     }
@@ -58,7 +57,7 @@ public class LoginServletTest {
         when(request.getInputStream()).thenReturn(new MockServletInputStream(inputStream));
         when(response.getOutputStream()).thenReturn(outputStream);
 
-        when(userService.authenticate("invaliduser", "invalidpass")).thenReturn(false);
+        when(userServiceImpl.authenticate("invaliduser", "invalidpass")).thenReturn(false);
 
         loginServlet.doPost(request, response);
 

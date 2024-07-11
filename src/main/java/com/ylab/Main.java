@@ -4,12 +4,12 @@ import com.ylab.model.Booking;
 import com.ylab.model.ConferenceRoom;
 import com.ylab.model.User;
 import com.ylab.model.Workspace;
-import com.ylab.repository.BookingRepository;
-import com.ylab.repository.ResourceRepository;
-import com.ylab.repository.UserRepository;
-import com.ylab.service.BookingService;
-import com.ylab.service.ResourceService;
-import com.ylab.service.UserService;
+import com.ylab.repository.impl.BookingRepositoryImpl;
+import com.ylab.repository.impl.ResourceRepositoryImpl;
+import com.ylab.repository.impl.UserRepositoryImpl;
+import com.ylab.service.impl.BookingServiceImpl;
+import com.ylab.service.impl.ResourceServiceImpl;
+import com.ylab.service.impl.UserServiceImpl;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,9 +21,9 @@ import java.util.Scanner;
 public class Main {
 
     private static Scanner scanner = new Scanner(System.in);
-    private static UserService userService = new UserService(new UserRepository());
-    private static ResourceService resourceService = new ResourceService(new ResourceRepository());
-    private static BookingService bookingService = new BookingService(new BookingRepository());
+    private static UserServiceImpl userServiceImpl = new UserServiceImpl(new UserRepositoryImpl());
+    private static ResourceServiceImpl resourceServiceImpl = new ResourceServiceImpl(new ResourceRepositoryImpl());
+    private static BookingServiceImpl bookingServiceImpl = new BookingServiceImpl(new BookingRepositoryImpl());
     private static User currentUser;
 
     /**
@@ -137,8 +137,8 @@ public class Main {
         String username = scanner.nextLine();
         System.out.print("Password: ");
         String password = scanner.nextLine();
-        if (userService.authenticate(username, password)) {
-            currentUser = userService.getUser(username);
+        if (userServiceImpl.authenticate(username, password)) {
+            currentUser = userServiceImpl.getUser(username);
             System.out.println("Login successful.");
         } else {
             System.out.println("Invalid username or password.");
@@ -154,7 +154,7 @@ public class Main {
         String name = scanner.nextLine();
         try {
             User user = new User(null, username, password, name);
-            userService.registerUser(user);
+            userServiceImpl.registerUser(user);
             System.out.println("Registration successful. You can now log in.");
         } catch (IllegalArgumentException e) {
             System.out.println("Username already exists.");
@@ -162,13 +162,13 @@ public class Main {
     }
 
     private static void viewAvailableWorkspaces() {
-        for (Workspace workspace : resourceService.getAllWorkspaces().values()) {
+        for (Workspace workspace : resourceServiceImpl.getAllWorkspaces().values()) {
             System.out.println("ID: " + workspace.getId() + ", Name: " + workspace.getName());
         }
     }
 
     private static void viewAvailableConferenceRooms() {
-        for (ConferenceRoom room : resourceService.getAllConferenceRooms().values()) {
+        for (ConferenceRoom room : resourceServiceImpl.getAllConferenceRooms().values()) {
             System.out.println("ID: " + room.getId() + ", Name: " + room.getName());
         }
     }
@@ -185,7 +185,7 @@ public class Main {
         LocalDateTime endTime = LocalDateTime.parse(endTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         try {
             Booking booking = new Booking(null, currentUser.getUsername(), id, startTime, endTime, true);
-            bookingService.bookResource(booking);
+            bookingServiceImpl.bookResource(booking);
             System.out.println("Workspace booked successfully.");
         } catch (IllegalArgumentException e) {
             System.out.println("Time slot is already booked.");
@@ -204,7 +204,7 @@ public class Main {
         LocalDateTime endTime = LocalDateTime.parse(endTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         try {
             Booking booking = new Booking(null, currentUser.getUsername(), id, startTime, endTime, false);
-            bookingService.bookResource(booking);
+            bookingServiceImpl.bookResource(booking);
             System.out.println("Conference room booked successfully.");
         } catch (IllegalArgumentException e) {
             System.out.println("Time slot is already booked.");
@@ -215,12 +215,12 @@ public class Main {
         System.out.print("Booking ID: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        bookingService.cancelBooking(id);
+        bookingServiceImpl.cancelBooking(id);
         System.out.println("Booking cancelled successfully.");
     }
 
     private static void viewAllBookings() {
-        for (Booking booking : bookingService.getAllBookings()) {
+        for (Booking booking : bookingServiceImpl.getAllBookings()) {
             System.out.println("ID: " + booking.getId() + ", User: " + booking.getUsername() + ", Resource ID: "
                     + booking.getResourceId() + ", Start Time: " + booking.getStartTime() + ", End Time: "
                     + booking.getEndTime() + ", Workspace: " + booking.isWorkspace());
@@ -231,7 +231,7 @@ public class Main {
         System.out.print("Workspace name: ");
         String name = scanner.nextLine();
         Workspace workspace = new Workspace(null, name, false);
-        resourceService.addWorkspace(workspace);
+        resourceServiceImpl.addWorkspace(workspace);
         System.out.println("Workspace added successfully.");
     }
 
@@ -239,7 +239,7 @@ public class Main {
         System.out.print("Conference room name: ");
         String name = scanner.nextLine();
         ConferenceRoom conferenceRoom = new ConferenceRoom(null, name, false);
-        resourceService.addConferenceRoom(conferenceRoom);
+        resourceServiceImpl.addConferenceRoom(conferenceRoom);
         System.out.println("Conference room added successfully.");
     }
 
@@ -251,7 +251,7 @@ public class Main {
         String newName = scanner.nextLine();
         System.out.print("Is available: ");
         boolean status = scanner.nextBoolean();
-        resourceService.updateWorkspace(id, newName, status);
+        resourceServiceImpl.updateWorkspace(id, newName, status);
         System.out.println("Workspace updated successfully.");
     }
 
@@ -263,7 +263,7 @@ public class Main {
         String newName = scanner.nextLine();
         System.out.print("Is available: ");
         boolean status = scanner.nextBoolean();
-        resourceService.updateConferenceRoom(id, newName, status);
+        resourceServiceImpl.updateConferenceRoom(id, newName, status);
         System.out.println("Conference room updated successfully.");
     }
 
@@ -271,7 +271,7 @@ public class Main {
         System.out.print("Workspace ID: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        resourceService.deleteWorkspace(id);
+        resourceServiceImpl.deleteWorkspace(id);
         System.out.println("Workspace deleted successfully.");
     }
 
@@ -279,7 +279,7 @@ public class Main {
         System.out.print("Conference Room ID: ");
         int id = scanner.nextInt();
         scanner.nextLine();
-        resourceService.deleteConferenceRoom(id);
+        resourceServiceImpl.deleteConferenceRoom(id);
         System.out.println("Conference room deleted successfully.");
     }
 
@@ -296,7 +296,7 @@ public class Main {
         String resourceIdStr = scanner.nextLine();
         Integer resourceId = resourceIdStr.isBlank() ? null : Integer.parseInt(resourceIdStr);
 
-        for (Booking booking : bookingService.filterBookings(date, username, resourceId)) {
+        for (Booking booking : bookingServiceImpl.filterBookings(date, username, resourceId)) {
             System.out.println("ID: " + booking.getId() + ", User: " + booking.getUsername() + ", Resource ID: "
                     + booking.getResourceId() + ", Start Time: " + booking.getStartTime() + ", End Time: "
                     + booking.getEndTime() + ", Workspace: " + booking.isWorkspace());
