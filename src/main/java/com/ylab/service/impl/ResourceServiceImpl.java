@@ -4,13 +4,17 @@ import com.ylab.model.ConferenceRoom;
 import com.ylab.model.Workspace;
 import com.ylab.repository.ResourceRepository;
 import com.ylab.service.ResourceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@Service
 public class ResourceServiceImpl implements ResourceService {
 
     private final ResourceRepository resourceRepository;
 
+    @Autowired
     public ResourceServiceImpl(ResourceRepository resourceRepositoryImpl) {
         this.resourceRepository = resourceRepositoryImpl;
     }

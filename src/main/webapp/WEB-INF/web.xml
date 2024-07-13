@@ -4,14 +4,7 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-  <servlet>
-    <servlet-name>AddConferenceRoom</servlet-name>
-    <servlet-class>com.ylab.servlet.AddConferenceRoomServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>AddConferenceRoom</servlet-name>
-    <url-pattern>/addConferenceRoom/*</url-pattern>
-  </servlet-mapping>
+
 
 
 </web-app>

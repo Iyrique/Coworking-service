@@ -6,6 +6,7 @@ import com.ylab.model.User;
 import com.ylab.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 /**
  * Repository class for User entity.
  */
+@Repository
 public class UserRepositoryImpl implements UserRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);

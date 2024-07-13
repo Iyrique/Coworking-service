@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 /**
  * Mapper interface for converting ConferenceRoom entities to ConferenceRoomDTOs and vice versa.
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ConferenceRoomMapper {
 
     /**

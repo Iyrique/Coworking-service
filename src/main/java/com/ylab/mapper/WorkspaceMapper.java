@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 /**
  * Mapper interface for converting Workspace entities to WorkspaceDTOs and vice versa.
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface WorkspaceMapper {
 
     /**

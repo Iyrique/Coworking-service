@@ -3,6 +3,7 @@ package com.ylab.repository.impl;
 import com.ylab.connector.ConnectorDB;
 import com.ylab.model.Booking;
 import com.ylab.repository.BookingRepository;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * Repository class for Booking entity.
  */
+@Repository
 public class BookingRepositoryImpl implements BookingRepository {
 
     private final ConnectorDB connectorDB = ConnectorDB.getInstance();

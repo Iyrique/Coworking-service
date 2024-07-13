@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
  * Mapper interface for converting Booking entities to BookingDTOs and vice versa.
  */
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface BookingMapper {
 
     /**

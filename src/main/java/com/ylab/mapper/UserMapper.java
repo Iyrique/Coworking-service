@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 /**
  * Mapper interface for converting User entities to UserDTOs and vice versa.
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     /**

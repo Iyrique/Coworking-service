@@ -6,6 +6,7 @@ import com.ylab.model.Workspace;
 import com.ylab.repository.ConferenceRoomRepository;
 import com.ylab.repository.ResourceRepository;
 import com.ylab.repository.WorkspaceRepository;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,6 +18,7 @@ import java.util.Map;
 /**
  * Repository class for Workspace and ConferenceRoom entities.
  */
+@Repository
 public class ResourceRepositoryImpl implements ResourceRepository {
 
     private final ConnectorDB connectorDB = ConnectorDB.getInstance();
