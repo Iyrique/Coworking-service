@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -48,6 +50,14 @@ public class AppConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ylab.controller"))
                 .paths(PathSelectors.any())
+                .build()
+                .apiInfo(apiEndPointsInfo());
+    }
+
+    private ApiInfo apiEndPointsInfo() {
+        return new ApiInfoBuilder().title("Spring Boot REST API")
+                .description("Booking Management System REST API")
+                .version("1.0.0")
                 .build();
     }
 

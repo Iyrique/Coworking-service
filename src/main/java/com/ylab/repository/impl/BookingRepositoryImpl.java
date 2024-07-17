@@ -1,10 +1,11 @@
 package com.ylab.repository.impl;
 
-import com.ylab.connector.ConnectorDB;
 import com.ylab.model.Booking;
 import com.ylab.repository.BookingRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,9 +15,10 @@ import java.util.List;
  * Repository class for Booking entity.
  */
 @Repository
+@RequiredArgsConstructor
 public class BookingRepositoryImpl implements BookingRepository {
 
-    private final ConnectorDB connectorDB = ConnectorDB.getInstance();
+    private final DataSource dataSource;
 
     /**
      * Saves a booking to the database.
@@ -26,7 +28,7 @@ public class BookingRepositoryImpl implements BookingRepository {
     public void save(Booking booking) {
         try {
             String sql = "INSERT INTO coworking.bookings (username, resource_id, start_time, end_time, is_workspace) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement statement = connectorDB.getConnection().prepareStatement(sql);
+            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setString(1, booking.getUsername());
             statement.setInt(2, booking.getResourceId());
             statement.setTimestamp(3, Timestamp.valueOf(booking.getStartTime()));
@@ -46,7 +48,7 @@ public class BookingRepositoryImpl implements BookingRepository {
     public void cancel(int id) {
         try {
             String sql = "DELETE FROM coworking.bookings WHERE id = ?";
-            PreparedStatement statement = connectorDB.getConnection().prepareStatement(sql);
+            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -63,7 +65,7 @@ public class BookingRepositoryImpl implements BookingRepository {
         List<Booking> bookings = new ArrayList<>();
         try {
             String sql = "SELECT * FROM coworking.bookings";
-            PreparedStatement statement = connectorDB.getConnection().prepareStatement(sql);
+            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 bookings.add(getBookingByResultSet(resultSet));
@@ -97,7 +99,7 @@ public class BookingRepositoryImpl implements BookingRepository {
                 sql.append(" AND resource_id = ").append(resourceId);
             }
 
-            PreparedStatement statement = connectorDB.getConnection().prepareStatement(sql.toString());
+            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql.toString());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 bookings.add(getBookingByResultSet(resultSet));

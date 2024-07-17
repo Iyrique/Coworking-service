@@ -1,8 +1,12 @@
 package com.ylab.mapper;
 
+import com.ylab.dto.ConferenceRoomDTO;
 import com.ylab.dto.UserDTO;
+import com.ylab.model.ConferenceRoom;
 import com.ylab.model.User;
 import org.mapstruct.Mapper;
+
+import java.util.List;
 
 /**
  * Mapper interface for converting User entities to UserDTOs and vice versa.
@@ -25,4 +29,20 @@ public interface UserMapper {
      * @return the converted User entity
      */
     User toEntity(UserDTO userDTO);
+
+    /**
+     * Converts a list of User entities to a list of UserDTOs.
+     *
+     * @param user the list of User entities to convert
+     * @return the converted list of UserDTOs
+     */
+    List<UserDTO> toDtoList(List<User> user);
+
+    /**
+     * Converts a list of UserDTOs to a list of User entities.
+     *
+     * @param userDTOs the list of UserDTOs to convert
+     * @return the converted list of User entities
+     */
+    List<User> toEntityList(List<UserDTO> userDTOs);
 }

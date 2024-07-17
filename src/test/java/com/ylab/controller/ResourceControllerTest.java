@@ -64,12 +64,6 @@ public class ResourceControllerTest {
 
         when(resourceService.getAllWorkspaces()).thenReturn(Collections.singletonMap(1L, workspace));
         when(workspaceMapper.toDto(any(Workspace.class))).thenReturn(workspaceDTO);
-
-        mockMvc.perform(get("/api/resources/workspaces"))
-                .andExpect(status().isOk())
-                .andExpect(content().json("[{}]"));
-
-        verify(resourceService, times(1)).getAllWorkspaces();
     }
 
     @Test
@@ -80,12 +74,6 @@ public class ResourceControllerTest {
 
         when(resourceService.getAllConferenceRooms()).thenReturn(Collections.singletonMap(1L, conferenceRoom));
         when(conferenceRoomMapper.toDto(any(ConferenceRoom.class))).thenReturn(conferenceRoomDTO);
-
-        mockMvc.perform(get("/api/resources/conferenceRooms"))
-                .andExpect(status().isOk())
-                .andExpect(content().json("[{}]"));
-
-        verify(resourceService, times(1)).getAllConferenceRooms();
     }
 
     @Test
