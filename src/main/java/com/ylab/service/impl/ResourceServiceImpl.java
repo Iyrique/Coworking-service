@@ -4,16 +4,16 @@ import com.ylab.model.ConferenceRoom;
 import com.ylab.model.Workspace;
 import com.ylab.repository.ResourceRepository;
 import com.ylab.service.ResourceService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@Service
+@RequiredArgsConstructor
 public class ResourceServiceImpl implements ResourceService {
 
     private final ResourceRepository resourceRepository;
-
-    public ResourceServiceImpl(ResourceRepository resourceRepositoryImpl) {
-        this.resourceRepository = resourceRepositoryImpl;
-    }
 
     /**
      * Retrieves all available workspaces.

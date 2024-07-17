@@ -6,7 +6,10 @@ import com.ylab.model.Workspace;
 import com.ylab.repository.ConferenceRoomRepository;
 import com.ylab.repository.ResourceRepository;
 import com.ylab.repository.WorkspaceRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,9 +20,11 @@ import java.util.Map;
 /**
  * Repository class for Workspace and ConferenceRoom entities.
  */
+@Repository
+@RequiredArgsConstructor
 public class ResourceRepositoryImpl implements ResourceRepository {
 
-    private final ConnectorDB connectorDB = ConnectorDB.getInstance();
+    private final DataSource dataSource;
 
     /**
      * Retrieves all workspaces from the database.
@@ -30,7 +35,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
         Map<Long, Workspace> workspaces = new HashMap<>();
         try {
             String sql = "SELECT * FROM coworking.workspaces";
-            PreparedStatement statement = connectorDB.getConnection().prepareStatement(sql);
+            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 workspaces.put(resultSet.getLong("id"), new Workspace(resultSet.getLong("id"), resultSet.getString("name"),
@@ -51,7 +56,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
         Map<Long, ConferenceRoom> rooms = new HashMap<>();
         try {
             String sql = "SELECT * FROM coworking.conference_rooms";
-            PreparedStatement statement = connectorDB.getConnection().prepareStatement(sql);
+            PreparedStatement statement = dataSource.getConnection().prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 rooms.put(resultSet.getLong("id"), new ConferenceRoom(resultSet.getLong("id"),
@@ -72,7 +77,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
     public void saveWorkspace(Workspace workspace) {
         try {
             String sql = "INSERT INTO coworking.workspaces (name, is_available) VALUES (?, ?)";
-            PreparedStatement statement = prepareInsertStatement(connectorDB.getConnection(), sql, workspace.getName(),
+            PreparedStatement statement = prepareInsertStatement(dataSource.getConnection(), sql, workspace.getName(),
                     workspace.isAvailable());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -88,7 +93,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
     public void saveConferenceRoom(ConferenceRoom room) {
         try {
             String sql = "INSERT INTO coworking.conference_rooms (name, is_available) VALUES (?, ?)";
-            PreparedStatement statement = prepareInsertStatement(connectorDB.getConnection(), sql, room.getName(), room.isAvailable());
+            PreparedStatement statement = prepareInsertStatement(dataSource.getConnection(), sql, room.getName(), room.isAvailable());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,7 +118,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
     public void updateWorkspace(int id, String newName, boolean isAvailable) {
         try {
             String sql = "UPDATE coworking.workspaces SET name = ?, is_available = ? WHERE id = ?";
-            PreparedStatement statement = prepareUpdateStatement(connectorDB.getConnection(), sql, id, newName, isAvailable);
+            PreparedStatement statement = prepareUpdateStatement(dataSource.getConnection(), sql, id, newName, isAvailable);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,7 +135,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
     public void updateConferenceRoom(int id, String newName, boolean isAvailable) {
         try {
             String sql = "UPDATE coworking.conference_rooms SET name = ?, is_available = ? WHERE id = ?";
-            PreparedStatement statement = prepareUpdateStatement(connectorDB.getConnection(), sql, id, newName, isAvailable);
+            PreparedStatement statement = prepareUpdateStatement(dataSource.getConnection(), sql, id, newName, isAvailable);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -154,7 +159,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
     public void deleteWorkspace(int id) {
         try {
             String sql = "DELETE FROM coworking.workspaces WHERE id = ?";
-            PreparedStatement statement = prepareDeleteStatement(connectorDB.getConnection(), sql, id);
+            PreparedStatement statement = prepareDeleteStatement(dataSource.getConnection(), sql, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -169,7 +174,7 @@ public class ResourceRepositoryImpl implements ResourceRepository {
     public void deleteConferenceRoom(int id) {
         try {
             String sql = "DELETE FROM coworking.conference_rooms WHERE id = ?";
-            PreparedStatement statement = prepareDeleteStatement(connectorDB.getConnection(), sql, id);
+            PreparedStatement statement = prepareDeleteStatement(dataSource.getConnection(), sql, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

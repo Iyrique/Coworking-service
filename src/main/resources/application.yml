@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/coworkingDB
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+liquibase:
+  change-log: classpath:db/changelog/changelog.xml
+  default-schema: coworking
+  liquibase-schema: liquibase_schema
+
+swagger:
+  api:
+    title: Coworking API
+    description: API documentation for Coworking application
+    version: 1.0.0

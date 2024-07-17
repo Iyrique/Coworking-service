@@ -4,17 +4,17 @@ import com.ylab.exception.UserNotFoundException;
 import com.ylab.model.User;
 import com.ylab.repository.UserRepository;
 import com.ylab.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * Service for managing users.
  */
+@Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepositoryImpl) {
-        this.userRepository = userRepositoryImpl;
-    }
 
     /**
      * Register a new user.

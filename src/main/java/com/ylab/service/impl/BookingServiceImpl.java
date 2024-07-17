@@ -2,8 +2,9 @@ package com.ylab.service.impl;
 
 import com.ylab.model.Booking;
 import com.ylab.repository.BookingRepository;
-import com.ylab.repository.impl.BookingRepositoryImpl;
 import com.ylab.service.BookingService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,13 +12,11 @@ import java.util.List;
 /**
  * Service class for booking operations.
  */
+@Service
+@RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
-
-    public BookingServiceImpl(BookingRepository bookingRepositoryImpl) {
-        this.bookingRepository = bookingRepositoryImpl;
-    }
 
     /**
      * Books a workspace or conference room.
