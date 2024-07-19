@@ -1,11 +1,8 @@
 package com.ylab.repository.impl;
 
-import com.ylab.connector.ConnectorDB;
 import com.ylab.model.ConferenceRoom;
 import com.ylab.model.Workspace;
-import com.ylab.repository.ConferenceRoomRepository;
 import com.ylab.repository.ResourceRepository;
-import com.ylab.repository.WorkspaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

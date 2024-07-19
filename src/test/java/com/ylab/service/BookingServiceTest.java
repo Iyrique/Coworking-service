@@ -1,5 +1,6 @@
 package com.ylab.service;
 
+import com.ylab.configAspect.EnableLogging;
 import com.ylab.model.Booking;
 
 import com.ylab.repository.impl.BookingRepositoryImpl;
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.*;
 /**
  * Service class for booking operations.
  */
+@EnableLogging
 class BookingServiceTest {
     private BookingRepositoryImpl bookingRepositoryImpl;
     private BookingServiceImpl bookingServiceImpl;

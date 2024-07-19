@@ -1,4 +1,4 @@
-package com.ylab.aspect;
+package io.ylab.aspects.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class LoggingAspect {
 
-    @Around("execution(* com.ylab..*(..))")
+    @Around("execution(* *(..))")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         Object proceed = joinPoint.proceed();
@@ -23,12 +23,12 @@ public class LoggingAspect {
         return proceed;
     }
 
-    @AfterReturning(pointcut = "execution(* com.ylab.service.*.*(..))", returning = "result")
+    @AfterReturning(pointcut = "execution(* *.*(..))", returning = "result")
     public void logAfterReturning(JoinPoint joinPoint, Object result) {
         log.info("Method " + joinPoint.getSignature().getName() + " returned " + result);
     }
 
-    @AfterThrowing(pointcut = "execution(* com.ylab.service.*.*(..))", throwing = "exception")
+    @AfterThrowing(pointcut = "execution(* *.*(..))", throwing = "exception")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable exception) {
         log.error("Method " + joinPoint.getSignature().getName() + " threw " + exception);
     }

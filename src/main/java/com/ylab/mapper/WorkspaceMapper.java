@@ -1,8 +1,6 @@
 package com.ylab.mapper;
 
-import com.ylab.dto.UserDTO;
 import com.ylab.dto.WorkspaceDTO;
-import com.ylab.model.User;
 import com.ylab.model.Workspace;
 import org.mapstruct.Mapper;
 

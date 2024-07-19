@@ -1,5 +1,6 @@
 package com.ylab.service;
 
+import com.ylab.configAspect.EnableLogging;
 import com.ylab.exception.UserNotFoundException;
 import com.ylab.model.User;
 import com.ylab.repository.impl.UserRepositoryImpl;
@@ -15,6 +16,7 @@ import static org.mockito.Mockito.*;
 /**
  * Tests for UserService.
  */
+@EnableLogging
 class UserServiceTest {
     private UserRepositoryImpl userRepositoryImpl;
     private UserServiceImpl userServiceImpl;

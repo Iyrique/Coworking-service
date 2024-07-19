@@ -7,8 +7,8 @@ import com.ylab.mapper.WorkspaceMapper;
 import com.ylab.model.ConferenceRoom;
 import com.ylab.model.Workspace;
 import com.ylab.service.ResourceService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/resources")
 @RequiredArgsConstructor
-@Api(value = "Resource Management System", description = "Operations pertaining to resources in Resource Management System")
+@Tag(name = "Resource Management System", description = "Operations pertaining to resources in Resource Management System")
 public class ResourceController {
 
     private final ResourceService resourceService;
@@ -33,7 +33,7 @@ public class ResourceController {
      * @return a list of workspace data transfer objects
      */
     @GetMapping("/workspaces")
-    @ApiOperation(value = "View a list of all available workspaces", response = List.class)
+    @Operation(summary = "View a list of all available workspaces", description = "Retrieves all available workspaces")
     public ResponseEntity<List<WorkspaceDTO>> getAllWorkspaces() {
         List<Workspace> workspaces = resourceService.getAllWorkspaces().values().stream().collect(Collectors.toList());
         List<WorkspaceDTO> workspaceDTOs = workspaceMapper.toDtoList(workspaces);
@@ -46,7 +46,7 @@ public class ResourceController {
      * @return a list of conference room data transfer objects
      */
     @GetMapping("/conferenceRooms")
-    @ApiOperation(value = "View a list of all available conference rooms", response = List.class)
+    @Operation(summary = "View a list of all available conference rooms", description = "Retrieves all available conference rooms")
     public ResponseEntity<List<ConferenceRoomDTO>> getAllConferenceRooms() {
         List<ConferenceRoom> conferenceRooms = resourceService.getAllConferenceRooms().values().stream().collect(Collectors.toList());
         List<ConferenceRoomDTO> conferenceRoomDTOs = conferenceRoomMapper.toDtoList(conferenceRooms);
@@ -59,7 +59,7 @@ public class ResourceController {
      * @param workspaceDTO the workspace data transfer object
      */
     @PostMapping("/workspace")
-    @ApiOperation(value = "Add a new workspace", response = String.class)
+    @Operation(summary = "Add a new workspace", description = "Adds a new workspace")
     public ResponseEntity<String> addWorkspace(@RequestBody WorkspaceDTO workspaceDTO) {
         Workspace workspace = workspaceMapper.toEntity(workspaceDTO);
         resourceService.addWorkspace(workspace);
@@ -72,7 +72,7 @@ public class ResourceController {
      * @param conferenceRoomDTO the conference room data transfer object
      */
     @PostMapping("/conferenceRoom")
-    @ApiOperation(value = "Add a new conference room", response = String.class)
+    @Operation(summary = "Add a new conference room", description = "Adds a new conference room")
     public ResponseEntity<String> addConferenceRoom(@RequestBody ConferenceRoomDTO conferenceRoomDTO) {
         ConferenceRoom room = conferenceRoomMapper.toEntity(conferenceRoomDTO);
         resourceService.addConferenceRoom(room);
@@ -86,7 +86,7 @@ public class ResourceController {
      * @param workspaceDTO the updated workspace data transfer object
      */
     @PutMapping("/workspaces/{id}")
-    @ApiOperation(value = "Update a workspace", response = Void.class)
+    @Operation(summary = "Update a workspace", description = "Updates a workspace")
     public void updateWorkspace(@PathVariable("id") int id, @RequestBody WorkspaceDTO workspaceDTO) {
         Workspace workspace = workspaceMapper.toEntity(workspaceDTO);
         resourceService.updateWorkspace(id, workspace.getName(), workspace.isAvailable());
@@ -99,7 +99,7 @@ public class ResourceController {
      * @param conferenceRoomDTO the updated conference room data transfer object
      */
     @PutMapping("/conference-rooms/{id}")
-    @ApiOperation(value = "Update a conference room", response = Void.class)
+    @Operation(summary = "Update a conference room", description = "Updates a conference room")
     public void updateConferenceRoom(@PathVariable("id") int id, @RequestBody ConferenceRoomDTO conferenceRoomDTO) {
         ConferenceRoom conferenceRoom = conferenceRoomMapper.toEntity(conferenceRoomDTO);
         resourceService.updateConferenceRoom(id, conferenceRoom.getName(), conferenceRoom.isAvailable());
@@ -112,7 +112,7 @@ public class ResourceController {
      * @param id the ID of the workspace to delete
      */
     @DeleteMapping("/workspace/{id}")
-    @ApiOperation(value = "Delete a workspace", response = String.class)
+    @Operation(summary = "Delete a workspace", description = "Deletes a workspace")
     public ResponseEntity<String> deleteWorkspace(@PathVariable("id") int id) {
         resourceService.deleteWorkspace(id);
         return new ResponseEntity<>("Workspace deleted successfully.", HttpStatus.OK);
@@ -124,7 +124,7 @@ public class ResourceController {
      * @param id the ID of the conference room to delete
      */
     @DeleteMapping("/conferenceRoom/{id}")
-    @ApiOperation(value = "Delete a conference room", response = String.class)
+    @Operation(summary = "Delete a conference room", description = "Deletes a conference room")
     public ResponseEntity<String> deleteConferenceRoom(@PathVariable("id") int id) {
         resourceService.deleteConferenceRoom(id);
         return new ResponseEntity<>("Conference room deleted successfully.", HttpStatus.OK);
@@ -136,7 +136,7 @@ public class ResourceController {
      * @param id the ID of the workspace to find
      */
     @GetMapping("/workspace/{id}")
-    @ApiOperation(value = "Get a workspace by ID", response = WorkspaceDTO.class)
+    @Operation(summary = "Get a workspace by ID", description = "Retrieves a workspace by its ID")
     public ResponseEntity<WorkspaceDTO> getWorkspaceById(@PathVariable("id") long id) {
         Workspace workspace = resourceService.getWorkspaceById(id);
         return workspace != null ? new ResponseEntity<>(workspaceMapper.toDto(workspace), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -148,7 +148,7 @@ public class ResourceController {
      * @param id the ID of the conference room to find
      */
     @GetMapping("/conferenceRoom/{id}")
-    @ApiOperation(value = "Get a conference room by ID", response = ConferenceRoomDTO.class)
+    @Operation(summary = "Get a conference room by ID", description = "Retrieves a conference room by its ID")
     public ResponseEntity<ConferenceRoomDTO> getConferenceRoomById(@PathVariable("id") long id) {
         ConferenceRoom room = resourceService.getConferenceRoomById(id);
         return room != null ? new ResponseEntity<>(conferenceRoomMapper.toDto(room), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
