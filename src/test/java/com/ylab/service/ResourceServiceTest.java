@@ -1,5 +1,6 @@
 package com.ylab.service;
 
+import com.ylab.configAspect.EnableLogging;
 import com.ylab.model.ConferenceRoom;
 import com.ylab.model.Workspace;
 import com.ylab.repository.impl.ResourceRepositoryImpl;
@@ -15,6 +16,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@EnableLogging
 public class ResourceServiceTest {
 
     private ResourceRepositoryImpl resourceRepository;

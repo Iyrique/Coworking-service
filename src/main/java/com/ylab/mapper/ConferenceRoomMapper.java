@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-
 /**
  * Mapper interface for converting ConferenceRoom entities to ConferenceRoomDTOs and vice versa.
  */

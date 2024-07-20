@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.ylab.configAspect.EnableLogging;
 import com.ylab.dto.BookingDTO;
 import com.ylab.mapper.BookingMapper;
 import com.ylab.model.Booking;
@@ -23,7 +24,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-
+@EnableLogging
 public class BookingControllerTest {
 
     private MockMvc mockMvc;

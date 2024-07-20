@@ -4,8 +4,9 @@ import com.ylab.dto.BookingDTO;
 import com.ylab.mapper.BookingMapper;
 import com.ylab.model.Booking;
 import com.ylab.service.BookingService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/bookings")
 @RequiredArgsConstructor
-@Api(value = "Booking Management System", description = "Operations pertaining to bookings in Booking Management System")
+@Tag(name = "Booking Management System", description = "Operations pertaining to bookings in Booking Management System")
 public class BookingController {
 
     private final BookingService bookingService;
@@ -29,7 +30,7 @@ public class BookingController {
      * @param bookingDTO the booking data transfer object
      */
     @PostMapping
-    @ApiOperation(value = "Book a resource", response = String.class)
+    @Operation(summary = "Book a resource", description = "Books a workspace or conference room")
     public ResponseEntity<String> bookResource(@RequestBody BookingDTO bookingDTO) {
         Booking booking = bookingMapper.toEntity(bookingDTO);
         bookingService.bookResource(booking);
@@ -42,7 +43,7 @@ public class BookingController {
      * @param id the ID of the booking to cancel
      */
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "Cancel a booking by ID", response = String.class)
+    @Operation(summary = "Cancel a booking by ID", description = "Cancels a booking by ID")
     public ResponseEntity<String> cancelBooking(@PathVariable("id") int id) {
         bookingService.cancelBooking(id);
         return new ResponseEntity<>("Booking cancelled successfully.", HttpStatus.OK);
@@ -54,7 +55,7 @@ public class BookingController {
      * @return a list of all booking data transfer objects
      */
     @GetMapping
-    @ApiOperation(value = "View a list of all bookings", response = List.class)
+    @Operation(summary = "View a list of all bookings", description = "Retrieves all bookings")
     public ResponseEntity<List<BookingDTO>> getAllBookings() {
         List<Booking> bookings = bookingService.getAllBookings();
         List<BookingDTO> bookingDTOs = bookingMapper.toDtoList(bookings);
@@ -70,7 +71,7 @@ public class BookingController {
      * @return a list of filtered booking data transfer objects
      */
     @GetMapping("/filter")
-    @ApiOperation(value = "Filter bookings based on criteria", response = List.class)
+    @Operation(summary = "Filter bookings based on criteria", description = "Filters bookings based on the provided criteria")
     public ResponseEntity<List<BookingDTO>> filterBookings(
             @RequestParam(value = "date", required = false) LocalDateTime date,
             @RequestParam(value = "username", required = false) String username,

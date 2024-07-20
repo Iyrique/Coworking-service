@@ -5,6 +5,7 @@ import com.ylab.model.User;
 import com.ylab.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;

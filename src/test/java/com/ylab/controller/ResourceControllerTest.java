@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ylab.configAspect.EnableLogging;
 import com.ylab.dto.ConferenceRoomDTO;
 import com.ylab.dto.WorkspaceDTO;
 import com.ylab.mapper.ConferenceRoomMapper;
@@ -30,6 +31,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Collections;
 
+@EnableLogging
 public class ResourceControllerTest {
 
     private MockMvc mockMvc;
