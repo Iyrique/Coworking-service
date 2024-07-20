@@ -14,7 +14,6 @@ Spring Boot application for managing a coworking space
 ## Technologies
 
 - Spring Boot 3.2.0 
-- Spring Data JPA 
 - PostgreSQL 
 - SpringDoc for API documentation 
 - MapStruct for mapping DTOs to entities 
